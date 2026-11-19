@@ -1,0 +1,34 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'
+
+/
+  Cache-Control: max-age=0, must-revalidate
+
+/*.html
+  Cache-Control: max-age=0, must-revalidate
+
+/assets/*.css
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/assets/*.js
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/assets/screenshots/*
+  Cache-Control: public, max-age=604800
+
+/assets/certificates/*
+  Cache-Control: public, max-age=604800
+
+/assets/og-preview.jpg
+  Cache-Control: public, max-age=604800
+
+/assets/jayr-sarino.webp
+  Cache-Control: public, max-age=604800
+
+/assets/*.pdf
+  Cache-Control: public, max-age=3600, must-revalidate
+  ! Content-Security-Policy
+  Content-Security-Policy: default-src 'self'; object-src 'self'; frame-ancestors 'none'

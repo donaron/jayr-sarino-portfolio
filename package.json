@@ -1,0 +1,21 @@
+{
+  "name": "jayr-sarino-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "scripts": {
+    "init:fixtures": "node ./scripts/create-fixtures.mjs",
+    "build:css": "tailwindcss -i ./src/styles/input.css -o ./dist/assets/styles.css --minify",
+    "build": "node ./scripts/build.mjs",
+    "build:release": "node ./scripts/build.mjs --release",
+    "preview": "node ./scripts/preview.mjs",
+    "test": "node --test ./tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.5",
+    "tailwindcss": "4.3.5"
+  }
+}

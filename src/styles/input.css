@@ -1,0 +1,100 @@
+@import "tailwindcss" source(none);
+@source "../index.html";
+@source "../404.html";
+
+@layer base {
+  html {
+    color-scheme: dark;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #0f0720;
+    color: #f5f3ff;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #0f0720;
+    color: #f5f3ff;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid #5eead4;
+    outline-offset: 2px;
+  }
+
+  dialog {
+    margin: auto;
+  }
+
+  dialog::backdrop {
+    background: rgb(9 4 20 / 0.86);
+    backdrop-filter: blur(4px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .hero-backdrop {
+    background-image:
+      radial-gradient(at 85% 10%, rgb(232 121 249 / 0.16) 0px, transparent 52%),
+      radial-gradient(at 10% 85%, rgb(45 212 191 / 0.12) 0px, transparent 48%);
+  }
+
+  .header-dusk {
+    background-color: rgb(15 7 32 / 0.92);
+    border-color: #3b1764;
+  }
+
+  .card-dusk {
+    background-color: #1b1035;
+    border-color: #4c1d95;
+  }
+
+  .tile-dusk {
+    background-color: #140b29;
+    border-color: #3b1764;
+  }
+
+  .btn-dusk {
+    background-color: #140b29;
+    border-color: #8b5cf6;
+  }
+
+  .band-dusk {
+    background-color: #2e1065;
+    border-color: #7c3aed;
+  }
+
+  .tray-dusk {
+    background-color: #241447;
+  }
+
+  .code-dusk {
+    background-color: #090414;
+    border-color: #3b1764;
+  }
+
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details[open] .summary-chevron {
+    transform: rotate(180deg);
+  }
+}
