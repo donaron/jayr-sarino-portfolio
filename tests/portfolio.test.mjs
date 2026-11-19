@@ -1166,3 +1166,60 @@ test('Phase 9: vercel.json configures static dist build, CSP/cache headers, and 
   const specDoc = readSrc('docs/designs/portfolio.md');
   assert.ok(specDoc.includes('vercel.json'), 'docs/designs/portfolio.md must document vercel.json');
 });
+
+test('Phase 10: #github Profile Card showcases @donaron and all 6 public GitHub repositories safely', () => {
+  const indexHtml = readSrc('src/index.html');
+  const specDoc = readSrc('docs/designs/portfolio.md');
+
+  const githubMatch = indexHtml.match(/<section[^>]*id="github"[\s\S]*?<\/section>/i);
+  assert.ok(githubMatch, 'index.html missing #github section');
+  const githubSec = githubMatch[0];
+
+  const sectionTag = githubSec.match(/<section[^>]*id="github"[^>]*class="([^"]*)"/i);
+  assert.ok(sectionTag, '#github section missing class attribute');
+  assert.match(sectionTag[1], /\bmd:scroll-mt-24\b/, '#github requires md:scroll-mt-24');
+  assert.equal(/\bsm:scroll-mt-\d+\b/.test(sectionTag[1]), false, '#github must not duplicate sm:scroll-mt-*');
+  assert.equal(/\bdata-owner-draft\b/i.test(githubSec), false, '#github must not contain data-owner-draft markers');
+
+  const navMatch = indexHtml.match(/<nav[^>]*aria-label="Primary"[\s\S]*?<\/nav>/i);
+  const footerMatch = indexHtml.match(/<footer[\s\S]*?<\/footer>/i);
+  assert.ok(navMatch && navMatch[0].includes('href="#github"'), 'Primary <nav> must link to #github');
+  assert.ok(footerMatch && footerMatch[0].includes('href="#github"'), '<footer> must link to #github');
+
+  for (const profileToken of [
+    '/assets/jayr-sarino.webp',
+    'width="765"',
+    'height="1024"',
+    'loading="lazy"',
+    'Don Aron',
+    '@donaron',
+    'a mobile app developer',
+    'https://github.com/donaron',
+    '6 Public Repositories'
+  ]) {
+    assert.ok(githubSec.includes(profileToken), `#github Profile Card missing "${profileToken}"`);
+  }
+
+  const publicRepos = [
+    ['donaron-plugin', 'https://github.com/donaron/donaron-plugin', 'TypeScript'],
+    ['soundwave-drop', 'https://github.com/donaron/soundwave-drop', 'Python'],
+    ['barangay-connect-releases', 'https://github.com/donaron/barangay-connect-releases', 'BarangayConnect Official Signed Android APK Releases'],
+    ['jayr-sarino-portfolio', 'https://github.com/donaron/jayr-sarino-portfolio', 'JavaScript'],
+    ['Bccporfolio', 'https://github.com/donaron/Bccporfolio', 'CSS'],
+    ['barangay-app-repository', 'https://github.com/donaron/barangay-app-repository', 'mobile app for barangay']
+  ];
+
+  for (const [name, url, detail] of publicRepos) {
+    assert.ok(githubSec.includes(name), `#github missing repo name: ${name}`);
+    assert.ok(githubSec.includes(`href="${url}"`), `#github missing repo link: ${url}`);
+    assert.ok(githubSec.includes(detail), `#github missing verified detail "${detail}" for ${name}`);
+    assert.ok(specDoc.includes(name), `docs/designs/portfolio.md must document GitHub repo ${name}`);
+  }
+
+  for (const tag of githubSec.matchAll(/<a\b[^>]*target="_blank"[^>]*>/gi)) {
+    assert.match(tag[0], /rel="noopener noreferrer"/, `External GitHub link missing safe rel: ${tag[0]}`);
+  }
+
+  assert.equal(indexHtml.includes('github.com/donaron/barangay-connect"'), false, 'Private barangay-connect repository URL must never be linked publicly');
+  assert.ok(specDoc.includes('#github'), 'docs/designs/portfolio.md must document the #github Profile Card section');
+});
